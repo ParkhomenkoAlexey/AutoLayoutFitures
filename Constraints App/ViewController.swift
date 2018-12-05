@@ -24,36 +24,47 @@ class ViewController: UIViewController {
         return view
     }()
     
+    let viewGreen: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false // если не отключим то не даст работать с constraints
+        view.backgroundColor = UIColor.green
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.addSubview(viewRed)
         view.addSubview(viewBlue)
+        view.addSubview(viewGreen)
         
-        // сделаем Visual Format Language
-        let viewVFL = ["viewRed":viewRed, "viewBlue":viewBlue]
-        // view.bounds.size.width / 3 - глобальную ширину делим на 3
-        // высота - view.bounds.size.height / 2 - берем высоты и режим на 2
-        let metrics = ["heingt":100, "widht": view.bounds.size.width / 3, "top": view.bounds.size.height / 2]
-        // "V" - вертикаль
-        // "H" - вертикаль
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[viewRed(heingt)]|",
-                                                          options: [],
-                                                          metrics: metrics,
-                                                          views: viewVFL))
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-top-[viewBlue(heingt)]|",
-                                                           options: [],
-                                                           metrics: metrics,
-                                                           views: viewVFL))
-        // если между [viewRed] и [viewblue] строит "-", то значит между ними constraint равен 8. Пример: "H:|[viewRed]-[viewBlue]|"
-        // "H:|[viewRed]-(50)-[viewBlue]|" - между ними 50
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[viewRed(widht)]-(50)-[viewBlue(widht)]-|",
-                                                           options: [],
-                                                           metrics: metrics,
-                                                           views: viewVFL))
-        
+        createViewRedConstraint()
+        createViewBlueConstraint()
+        createViewGreenConstraint()
     }
     
+    func createViewRedConstraint() {
+        viewRed.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        viewRed.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3).isActive = true // берем 1/3 от ширины view
+        viewRed.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        viewRed.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    func createViewBlueConstraint() {
+        viewBlue.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        viewBlue.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3).isActive = true // берем 1/3 от ширины view
+        viewBlue.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        viewBlue.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+    }
+    
+    func createViewGreenConstraint() {
+        viewGreen.rightAnchor.constraint(equalTo: viewBlue.rightAnchor).isActive = true
+        viewGreen.leftAnchor.constraint(equalTo: viewRed.leftAnchor).isActive = true // берем 1/3 от ширины view
+        viewGreen.bottomAnchor.constraint(equalTo: viewRed.topAnchor, constant: -20).isActive = true
+        viewGreen.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        
+    }
+        
     
     
 
