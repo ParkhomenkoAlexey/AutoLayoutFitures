@@ -1,30 +1,40 @@
 //
 //  ViewController.swift
-//  Quotes
+//  Foody
 //
-//  Created by Duc Tran on 4/29/16.
-//  Copyright © 2016 Developers Academy. All rights reserved.
+//  Created by Duc Tran on 1/9/17.
+//  Copyright © 2017 Developers Academy. All rights reserved.
 //
 
 import UIKit
 
 class ViewController: UIViewController
 {
-    @IBOutlet weak var quoteTextLabel: UILabel!
-    @IBOutlet weak var authorTextLabel: UILabel!
-    @IBOutlet weak var authorImageView: UIImageView!
+    @IBOutlet weak var recipeImageView: UIImageView!
+    @IBOutlet weak var recipeNameLabel: UILabel!
+    @IBOutlet weak var recipeMethodTextView: UITextView!
     
-    var quoteBook = QuoteBook()
+    var recipeBook = RecipeBook()
     
-    @IBAction func getNewQuoteTapped(_ sender: AnyObject)
-    {
-        let randomQuote = quoteBook.getRandomQuote()
-        let author = quoteBook.getAuthor(for: randomQuote)
-        let authorImageName = quoteBook.getImageName(for: author)
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        quoteTextLabel.text = randomQuote
-        authorTextLabel.text = author
-        authorImageView.image = UIImage(named: authorImageName)
+        let nextRecipe = recipeBook.getNextRecipe()
+        
+        recipeImageView.image = UIImage(named: nextRecipe.imageName)
+        recipeNameLabel.text = nextRecipe.name
+        recipeMethodTextView.text = nextRecipe.method
     }
+    
+    @IBAction func newRecipeDidTap(_ sender: Any)
+    {
+        let nextRecipe = recipeBook.getNextRecipe()
+        
+        recipeImageView.image = UIImage(named: nextRecipe.imageName)
+        recipeNameLabel.text = nextRecipe.name
+        recipeMethodTextView.text = nextRecipe.method
+    }
+    
+    
 }
 
