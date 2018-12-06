@@ -1,73 +1,30 @@
 //
 //  ViewController.swift
-//  Constraints App
+//  Quotes
 //
-//  Created by Алексей Пархоменко on 04/12/2018.
-//  Copyright © 2018 Алексей Пархоменко. All rights reserved.
+//  Created by Duc Tran on 4/29/16.
+//  Copyright © 2016 Developers Academy. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    let viewRed: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false // если не отключим то не даст работать с constraints
-        view.backgroundColor = UIColor.red
-        return view
-    }()
+class ViewController: UIViewController
+{
+    @IBOutlet weak var quoteTextLabel: UILabel!
+    @IBOutlet weak var authorTextLabel: UILabel!
+    @IBOutlet weak var authorImageView: UIImageView!
     
-    let viewBlue: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false // если не отключим то не даст работать с constraints
-        view.backgroundColor = UIColor.blue
-        return view
-    }()
+    var quoteBook = QuoteBook()
     
-    let viewGreen: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false // если не отключим то не даст работать с constraints
-        view.backgroundColor = UIColor.green
-        return view
-    }()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBAction func getNewQuoteTapped(_ sender: AnyObject)
+    {
+        let randomQuote = quoteBook.getRandomQuote()
+        let author = quoteBook.getAuthor(for: randomQuote)
+        let authorImageName = quoteBook.getImageName(for: author)
         
-        view.addSubview(viewRed)
-        view.addSubview(viewBlue)
-        view.addSubview(viewGreen)
-        
-        createViewRedConstraint()
-        createViewBlueConstraint()
-        createViewGreenConstraint()
+        quoteTextLabel.text = randomQuote
+        authorTextLabel.text = author
+        authorImageView.image = UIImage(named: authorImageName)
     }
-    
-    func createViewRedConstraint() {
-        viewRed.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        viewRed.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3).isActive = true // берем 1/3 от ширины view
-        viewRed.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        viewRed.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-    
-    func createViewBlueConstraint() {
-        viewBlue.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        viewBlue.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1/3).isActive = true // берем 1/3 от ширины view
-        viewBlue.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        viewBlue.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-    }
-    
-    func createViewGreenConstraint() {
-        viewGreen.rightAnchor.constraint(equalTo: viewBlue.rightAnchor).isActive = true
-        viewGreen.leftAnchor.constraint(equalTo: viewRed.leftAnchor).isActive = true // берем 1/3 от ширины view
-        viewGreen.bottomAnchor.constraint(equalTo: viewRed.topAnchor, constant: -20).isActive = true
-        viewGreen.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        
-    }
-        
-    
-    
-
-
 }
 
